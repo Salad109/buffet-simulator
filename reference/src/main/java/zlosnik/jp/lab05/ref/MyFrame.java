@@ -1,4 +1,4 @@
-package lab04;
+package zlosnik.jp.lab05.ref;
 
 import javax.swing.*;
 import java.awt.*;

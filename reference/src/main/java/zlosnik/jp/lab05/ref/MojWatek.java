@@ -1,4 +1,4 @@
-package lab04;
+package zlosnik.jp.lab05.ref;
 abstract public class MojWatek extends Thread {
 	private int produkt = 0;      
 	protected Magazyn m;

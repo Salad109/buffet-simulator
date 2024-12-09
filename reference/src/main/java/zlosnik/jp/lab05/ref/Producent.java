@@ -1,4 +1,4 @@
-package lab04;
+package zlosnik.jp.lab05.ref;
 public class Producent extends MojWatek {
      		
 	public Producent(String nazwa, int czasProd, Magazyn m)  {

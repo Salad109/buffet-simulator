@@ -1,4 +1,4 @@
-package lab04;
+package zlosnik.jp.lab05.ref;
 class Magazyn { 
 	private int pojemnosc = 0;   
 	private int[] bufor = null;   
