@@ -1,13 +1,23 @@
 package zlosnik.jp.lab04;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class Cashier implements Runnable {
-    private final Queue<Character> customerQueue = new LinkedList<>();
-    private final Queue<Character> servicedCustomers = new LinkedList<>();
+    private final int cashierId;
+    private static int nextId = 1;
+    final Queue<Character> customerQueue = new LinkedList<>();
+    final Queue<Character> servicedCustomers = new LinkedList<>();
     private static final int CAPACITY = 5; // Max queue capacity for customers
-    private Character currentCustomer = null;
+    Character currentCustomer = null;
+    private final Cafeteria cafeteria;
+
+    Cashier(Cafeteria cafeteria) {
+        this.cashierId = nextId++;
+        this.cafeteria = cafeteria;
+    }
 
     // Method for customers to join the queue
     public synchronized void joinQueue(char customer) throws InterruptedException {
@@ -18,19 +28,19 @@ public class Cashier implements Runnable {
 
         customerQueue.add(customer);
         notifyAll(); // Notify cashier that there is a customer
-        printStatus("JOINED", customer);
+        cafeteria.alertUpdate(); // Alert cafeteria
     }
 
     // Method for cashier to service a customer
     public synchronized char serviceCustomer() throws InterruptedException {
         while (customerQueue.isEmpty()) {
-            System.out.println("Cashier is waiting: no customers.");
+            System.out.println("Cashier " + cashierId + " is waiting: no customers.");
             wait(); // Wait if queue is empty
         }
 
         currentCustomer = customerQueue.poll(); // Dequeue customer
         notifyAll(); // Notify customers that there is space in the queue
-        printStatus("SERVICING", currentCustomer);
+        cafeteria.alertUpdate(); // Alert cafeteria
         return currentCustomer;
     }
 
@@ -39,18 +49,28 @@ public class Cashier implements Runnable {
         if (currentCustomer != null) {
             servicedCustomers.add(customer);
             currentCustomer = null;
-            printStatus("SERVED", customer);
+            cafeteria.alertUpdate(); // Alert cafeteria
         }
     }
 
-    // Print the full status of the queue system
-    private synchronized void printStatus(String action, char customer) {
-        System.out.println("\n======== Status Update ========");
-        System.out.println("Action: " + customer + " - " + action);
-        System.out.println("Waiting Queue: " + customerQueue);
-        System.out.println("Current Customer Being Serviced: " + (currentCustomer != null ? currentCustomer : "None"));
-        System.out.println("Serviced Customers: " + servicedCustomers);
-        System.out.println("===============================\n");
+    int getTotalCustomers() {
+        int customers = customerQueue.size();
+        if (currentCustomer != null) {
+            customers++;
+        }
+        return customers;
+    }
+
+    int getCashierId() {
+        return cashierId;
+    }
+
+    List<Character> getCurrentCustomer() {
+        List<Character> customers = new ArrayList<>();
+        if (currentCustomer != null) {
+            customers.add(currentCustomer);
+        }
+        return customers;
     }
 
     @Override

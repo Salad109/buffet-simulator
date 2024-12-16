@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+    private static final int CASHIER_COUNT = 2;
+    private static final int CUSTOMER_COUNT = 15;
     public static void main(String[] args) {
-        Cashier cashier = new Cashier();
-
-        // Create and start cashier thread
-        Thread cashierThread = new Thread(cashier);
-        cashierThread.start();
+        Cafeteria cafeteria = new Cafeteria(CASHIER_COUNT);
 
         // Create and start customer threads
         List<Thread> customerThreads = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            Customer customer = new Customer(cashier);
+        for (int i = 1; i <= CUSTOMER_COUNT; i++) {
+            Customer customer = new Customer(cafeteria);
             Thread customerThread = new Thread(customer);
             customerThreads.add(customerThread);
             customerThread.start();
@@ -23,22 +21,6 @@ public class Main {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-
-        // Wait for all customer threads to finish
-        for (Thread thread : customerThreads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Wait for cashier thread to finish
-        try {
-            cashierThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }
