@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cafeteria {
+    List<Cook> cooks = new ArrayList<>();
     List<Cashier> cashiers = new ArrayList<>();
 
-    Cafeteria(int cashierCount) {
+    Cafeteria(int cooksCount, int cashierCount) {
+        for (int i = 0; i < cooksCount; i++) {
+            Cook cook = new Cook(this);
+            cooks.add(cook);
+            Thread cookThread = new Thread(cook);
+            cookThread.start();
+        }
         for (int i = 0; i < cashierCount; i++) {
             Cashier cashier = new Cashier(this);
             cashiers.add(cashier);
@@ -15,7 +22,20 @@ public class Cafeteria {
         }
     }
 
-    synchronized Cashier getReadyCashier() {
+    synchronized Cook getReadyCook() {
+        int smallestQueue = Integer.MAX_VALUE;
+        Cook readyCook = null;
+        for (Cook cook : cooks) {
+            int queueSize = cook.getTotalCustomers();
+            if (queueSize < smallestQueue) {
+                smallestQueue = queueSize;
+                readyCook = cook;
+            }
+        }
+        return readyCook;
+    }
+
+    synchronized Cashier getReadyCashier(){
         int smallestQueue = Integer.MAX_VALUE;
         Cashier readyCashier = null;
         for (Cashier cashier : cashiers) {
@@ -29,9 +49,12 @@ public class Cafeteria {
     }
 
     synchronized void alertUpdate() {
-        System.out.println("==================================================");
-        for (Cashier c : cashiers) {
-            System.out.println("Cashier " + c.getCashierId() + ": Queue: " + c.customerQueue + " Current: " + c.getCurrentCustomer() + " Serviced: " + c.servicedCustomers);
+        System.out.println("=================================================================");
+        List<Worker> workers = new ArrayList<>();
+        workers.addAll(cooks);
+        workers.addAll(cashiers);
+        for (Worker worker : workers) {
+            System.out.println(worker);
         }
     }
 }

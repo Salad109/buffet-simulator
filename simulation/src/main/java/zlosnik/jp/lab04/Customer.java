@@ -13,10 +13,15 @@ public class Customer implements Runnable {
     @Override
     public void run() {
         try {
-            Cashier cashier = cafeteria.getReadyCashier();
+            Worker cook = cafeteria.getReadyCook();
+            cook.joinQueue(customerId);
+            while (cook.customerQueue.contains(customerId) || (cook.currentCustomer != null && cook.currentCustomer.equals(customerId))) {
+                Thread.sleep(100);
+            }
+            Worker cashier = cafeteria.getReadyCashier();
             cashier.joinQueue(customerId);
             while (cashier.customerQueue.contains(customerId) || (cashier.currentCustomer != null && cashier.currentCustomer.equals(customerId))) {
-                Thread.yield();
+                Thread.sleep(100);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

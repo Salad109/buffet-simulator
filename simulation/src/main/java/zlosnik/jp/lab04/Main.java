@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    private static final int CASHIER_COUNT = 2;
+    private static final int COOK_COUNT = 2;
+    private static final int CASHIER_COUNT = 3;
     private static final int CUSTOMER_COUNT = 15;
     public static void main(String[] args) {
-        Cafeteria cafeteria = new Cafeteria(CASHIER_COUNT);
+        Cafeteria cafeteria = new Cafeteria(COOK_COUNT, CASHIER_COUNT);
 
         // Create and start customer threads
         List<Thread> customerThreads = new ArrayList<>();
