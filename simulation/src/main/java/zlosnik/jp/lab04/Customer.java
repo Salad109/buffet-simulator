@@ -13,11 +13,21 @@ public class Customer implements Runnable {
     @Override
     public void run() {
         try {
-            Cashier cashier = cafeteria.getReadyCashier();
-            cashier.joinQueue(customerId);
-            while (cashier.customerQueue.contains(customerId) || (cashier.currentCustomer != null && cashier.currentCustomer.equals(customerId))) {
-                Thread.yield();
+            Worker cook = cafeteria.getReadyCook();
+            cook.joinQueue(customerId);
+            while (!cook.servicedCustomers.contains(customerId)) {
+                Thread.sleep(100);
             }
+            cook.servicedCustomers.remove(customerId);
+            Worker cashier = cafeteria.getReadyCashier();
+            cashier.joinQueue(customerId);
+            while (!cashier.servicedCustomers.contains(customerId)) {
+                Thread.sleep(100);
+            }
+            cashier.servicedCustomers.remove(customerId);
+
+            cafeteria.table.sit(customerId);
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
