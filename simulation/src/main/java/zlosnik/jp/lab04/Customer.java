@@ -19,6 +19,7 @@ public class Customer implements Runnable {
                 Thread.sleep(100);
             }
             cook.servicedCustomers.remove(customerId);
+
             Worker cashier = cafeteria.getReadyCashier();
             cashier.joinQueue(customerId);
             while (!cashier.servicedCustomers.contains(customerId)) {

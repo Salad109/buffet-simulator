@@ -7,7 +7,6 @@ public abstract class Worker implements Runnable {
     private static int nextId = 1;
     final Queue<Character> customerQueue = new LinkedList<>();
     final Queue<Character> servicedCustomers = new LinkedList<>();
-    private static final int CAPACITY = 5; // Max queue capacity for customers
     Character currentCustomer = null;
     private final Cafeteria cafeteria;
     Random rng = new Random();
@@ -19,11 +18,6 @@ public abstract class Worker implements Runnable {
 
     // Method for customers to join the queue
     public synchronized void joinQueue(char customer) throws InterruptedException {
-        while (customerQueue.size() == CAPACITY) {
-            System.out.println(customer + " is waiting: queue full!");
-            wait(); // Wait if queue is full
-        }
-
         customerQueue.add(customer);
         notifyAll(); // Notify worker that there is a customer
         cafeteria.alertUpdate(); // Alert cafeteria
@@ -46,7 +40,7 @@ public abstract class Worker implements Runnable {
         if (currentCustomer != null) {
             servicedCustomers.add(customer);
             currentCustomer = null;
-            cafeteria.alertUpdate(); // Alert cafeteria
+            // cafeteria.alertUpdate(); // Alert cafeteria
         }
     }
 

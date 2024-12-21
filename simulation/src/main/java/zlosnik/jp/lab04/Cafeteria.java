@@ -56,12 +56,14 @@ public class Cafeteria {
             System.out.println(cook);
         }
 
-        System.out.println("\n");
+        System.out.print("\n");
 
         for (Cashier cashier : cashiers) {
             System.out.println(cashier);
         }
 
-        System.out.println("\n" + table);
+        System.out.print("\n");
+
+        System.out.println(table);
     }
 }

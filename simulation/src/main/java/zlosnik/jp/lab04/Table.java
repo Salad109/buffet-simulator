@@ -4,25 +4,27 @@ import java.util.*;
 
 public class Table {
     Queue<Character> table;
-    Queue<Character> tableQueue; // todo
+    Queue<Character> tableQueue;
     Cafeteria cafeteria;
-    int size;
+    int tableSeatCount;
 
-    Table(int size, Cafeteria cafeteria) {
+    Table(int tableSeatCount, Cafeteria cafeteria) {
         table = new LinkedList<>();
         tableQueue = new LinkedList<>();
-        this.size = size;
+        this.tableSeatCount = tableSeatCount;
         this.cafeteria = cafeteria;
     }
 
     public synchronized void sit(char customer) throws InterruptedException {
-        while (table.size() == 20) {
-            System.out.println("Table is full!");
+        tableQueue.add(customer);
+        cafeteria.alertUpdate(); // Alert cafeteria
+        while (table.size() == tableSeatCount) {
             wait(); // Wait if table is full
         }
+        tableQueue.remove(customer);
         table.add(customer);
-        cafeteria.alertUpdate(); // Alert cafeteria
         notifyAll(); // Notify customer that there is a customer
+        cafeteria.alertUpdate(); // Alert cafeteria
     }
 
     public synchronized void leave(char customer) {
@@ -33,10 +35,16 @@ public class Table {
 
     @Override
     public String toString() {
+        // Print the table queue
+        for (char c : tableQueue) {
+            System.out.print(c);
+        }
+        System.out.println('\n');
+
         // Safely iterate over the first half of the table
         Iterator<Character> it = table.iterator();
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < size / 2; i++) {
+        for (int i = 0; i < tableSeatCount / 2; i++) {
             if (it.hasNext()) {
                 builder.append(it.next());
             } else {
@@ -45,14 +53,14 @@ public class Table {
         }
 
         builder.append("\n");
-        for (int i = 0; i < size / 2; i++) {
+        for (int i = 0; i < tableSeatCount / 2; i++) {
             builder.append("=");
         }
 
         builder.append("\n");
 
         // Safely iterate over the second half of the table
-        for (int i = size / 2; i < size; i++) {
+        for (int i = tableSeatCount / 2; i < tableSeatCount; i++) {
             if (it.hasNext()) {
                 builder.append(it.next());
             } else {
