@@ -3,6 +3,7 @@ package zlosnik.jp.lab04;
 import java.util.*;
 
 public class Cafeteria {
+    List<Character> outsideQueue = new LinkedList<>(); // todo
     List<Cook> cooks = new ArrayList<>();
     List<Cashier> cashiers = new ArrayList<>();
     Table table;
