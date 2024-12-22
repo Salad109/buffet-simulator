@@ -1,4 +1,4 @@
-package zlosnik.jp.lab04;
+package zlosnik.jp.lab05;
 
 import java.util.*;
 
@@ -7,8 +7,10 @@ public class Cafeteria {
     List<Cook> cooks = new ArrayList<>();
     List<Cashier> cashiers = new ArrayList<>();
     Table table;
+    GUI gui;
 
-    Cafeteria(int cooksCount, int cashierCount, int tableSize) {
+    Cafeteria(int cooksCount, int cashierCount, int tableSize, GUI gui) {
+        this.gui = gui;
         for (int i = 0; i < cooksCount; i++) {
             Cook cook = new Cook(this);
             cooks.add(cook);
@@ -52,14 +54,19 @@ public class Cafeteria {
 
     synchronized void alertUpdate() {
         System.out.println("=================================================================");
-        for (Cook cook : cooks) {
+
+        for(int i = 0; i < cooks.size(); i++) {
+            Cook cook = cooks.get(i);
             System.out.println(cook);
+            gui.updateTableData(cook.toString(), i, 1);
         }
 
         System.out.print("\n");
 
-        for (Cashier cashier : cashiers) {
+        for(int i = 0; i < cashiers.size(); i++) {
+            Cashier cashier = cashiers.get(i);
             System.out.println(cashier);
+            gui.updateTableData(cashier.toString(), i, 2);
         }
 
         System.out.print("\n");
@@ -68,13 +75,13 @@ public class Cafeteria {
     }
 
     class Table {
-        Queue<Character> table;
+        Queue<Character> tableSeats;
         Queue<Character> tableQueue;
         Cafeteria cafeteria;
         int tableSeatCount;
 
         Table(int tableSeatCount, Cafeteria cafeteria) {
-            table = new LinkedList<>();
+            tableSeats = new LinkedList<>();
             tableQueue = new LinkedList<>();
             this.tableSeatCount = tableSeatCount;
             this.cafeteria = cafeteria;
@@ -83,31 +90,31 @@ public class Cafeteria {
         public synchronized void sit(char customer) throws InterruptedException {
             tableQueue.add(customer);
             cafeteria.alertUpdate(); // Alert cafeteria
-            while (table.size() == tableSeatCount) {
-                wait(); // Wait if table is full
+            while (tableSeats.size() == tableSeatCount) {
+                wait(); // Wait if tableSeats is full
             }
             tableQueue.remove(customer);
-            table.add(customer);
+            tableSeats.add(customer);
             notifyAll(); // Notify customer that there is a customer
             cafeteria.alertUpdate(); // Alert cafeteria
         }
 
         public synchronized void leave(char customer) {
-            table.remove(customer);
+            tableSeats.remove(customer);
             cafeteria.alertUpdate(); // Alert cafeteria
             notifyAll(); // Notify customer that there is a free space
         }
 
         @Override
         public String toString() {
-            // Print the table queue
+            // Print the tableSeats queue
             for (char c : tableQueue) {
                 System.out.print(c);
             }
             System.out.println('\n');
 
-            // Safely iterate over the first half of the table
-            Iterator<Character> it = table.iterator();
+            // Safely iterate over the first half of the tableSeats
+            Iterator<Character> it = tableSeats.iterator();
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < tableSeatCount / 2; i++) {
                 if (it.hasNext()) {
@@ -121,7 +128,7 @@ public class Cafeteria {
             builder.append("=".repeat(tableSeatCount / 2));
             builder.append("\n");
 
-            // Safely iterate over the second half of the table
+            // Safely iterate over the second half of the tableSeats
             for (int i = tableSeatCount / 2; i < tableSeatCount; i++) {
                 if (it.hasNext()) {
                     builder.append(it.next());

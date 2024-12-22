@@ -1,4 +1,4 @@
-package zlosnik.jp.lab04;
+package zlosnik.jp.lab05;
 
 import java.util.*;
 

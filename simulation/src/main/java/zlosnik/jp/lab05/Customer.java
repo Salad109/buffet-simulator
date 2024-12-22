@@ -1,4 +1,4 @@
-package zlosnik.jp.lab04;
+package zlosnik.jp.lab05;
 
 public class Customer implements Runnable {
     private final char customerId;

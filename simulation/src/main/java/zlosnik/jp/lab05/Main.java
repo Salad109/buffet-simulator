@@ -1,4 +1,4 @@
-package zlosnik.jp.lab04;
+package zlosnik.jp.lab05;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,8 @@ public class Main {
     private static final int CUSTOMER_COUNT = 8;
     private static final int TABLE_SIZE = 16;
     public static void main(String[] args) {
-        Cafeteria cafeteria = new Cafeteria(COOK_COUNT, CASHIER_COUNT, TABLE_SIZE);
+        GUI gui = new GUI(COOK_COUNT, CASHIER_COUNT);
+        Cafeteria cafeteria = new Cafeteria(COOK_COUNT, CASHIER_COUNT, TABLE_SIZE, gui);
 
         // Create and start customer threads
         List<Thread> customerThreads = new ArrayList<>();
@@ -18,11 +19,8 @@ public class Main {
             Thread customerThread = new Thread(customer);
             customerThreads.add(customerThread);
             customerThread.start();
-            try {
-                Thread.sleep(250);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
+
+        gui.updateTableData("Balls ");
     }
 }
