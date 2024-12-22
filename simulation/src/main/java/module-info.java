@@ -1,4 +1,4 @@
 module simulation {
     requires java.desktop;
-    exports zlosnik.jp.lab05;
+    exports zlosnik.jp.lab05.sim;
 }

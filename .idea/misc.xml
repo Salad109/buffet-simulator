@@ -9,6 +9,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/reference/pom.xml" />
         <option value="$PROJECT_DIR$/simulation/gui/pom.xml" />
       </set>
     </option>

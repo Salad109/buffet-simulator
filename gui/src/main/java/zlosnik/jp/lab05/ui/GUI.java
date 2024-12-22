@@ -1,4 +1,4 @@
-package zlosnik.jp.lab05;
+package zlosnik.jp.lab05.ui;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

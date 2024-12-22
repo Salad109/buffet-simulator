@@ -1,26 +1,24 @@
-package zlosnik.jp.lab05;
+package zlosnik.jp.lab05.sim;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Worker implements Runnable {
     private final int workerId;
     private static int nextId = 1;
-    final Queue<Character> customerQueue = new LinkedList<>();
-    final Queue<Character> servicedCustomers = new LinkedList<>();
+    final ConcurrentLinkedQueue<Character> customerQueue = new ConcurrentLinkedQueue<>();
+    final ConcurrentLinkedQueue<Character> servicedCustomers = new ConcurrentLinkedQueue<>();
     Character currentCustomer = null;
-    private final Cafeteria cafeteria;
     Random rng = new Random();
 
-    Worker(Cafeteria cafeteria) {
+    Worker() {
         this.workerId = nextId++;
-        this.cafeteria = cafeteria;
     }
 
     // Method for customers to join the queue
-    public synchronized void joinQueue(char customer) throws InterruptedException {
+    public synchronized void joinQueue(char customer) {
         customerQueue.add(customer);
         notifyAll(); // Notify worker that there is a customer
-        cafeteria.alertUpdate(); // Alert cafeteria
     }
 
     // Method for worker to service a customer
@@ -31,7 +29,6 @@ public abstract class Worker implements Runnable {
 
         currentCustomer = customerQueue.poll(); // Dequeue customer
         notifyAll(); // Notify customers that there is space in the queue
-        cafeteria.alertUpdate(); // Alert cafeteria
         return currentCustomer;
     }
 
@@ -41,10 +38,11 @@ public abstract class Worker implements Runnable {
             servicedCustomers.add(customer);
             currentCustomer = null;
             // cafeteria.alertUpdate(); // Alert cafeteria
+            notifyAll();
         }
     }
 
-    int getTotalCustomers() {
+    synchronized int getTotalCustomers() {
         int customers = customerQueue.size();
         if (currentCustomer != null) {
             customers++;
@@ -56,11 +54,24 @@ public abstract class Worker implements Runnable {
         return workerId;
     }
 
-    List<Character> getCurrentCustomer() {
+    synchronized List<Character> getCurrentCustomer() {
         List<Character> customers = new ArrayList<>();
         if (currentCustomer != null) {
             customers.add(currentCustomer);
         }
         return customers;
     }
+
+    public synchronized void leaveQueue(char customer) {
+        while (!servicedCustomers.contains(customer)) {
+            try {
+                wait(); // Wait until the customer is serviced
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        servicedCustomers.remove(customer);
+        notifyAll();
+    }
+
 }
