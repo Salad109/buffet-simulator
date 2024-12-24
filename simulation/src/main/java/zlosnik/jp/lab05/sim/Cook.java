@@ -3,6 +3,7 @@ package zlosnik.jp.lab05.sim;
 public class Cook extends Worker {
     private static int nextCookId = 1;
     private final int cookId;
+
     Cook(GUI gui) {
         super(gui);
         cookId = nextCookId++;
@@ -20,7 +21,7 @@ public class Cook extends Worker {
             while (!Thread.currentThread().isInterrupted()) {
                 char customer = serviceCustomer();
                 gui.update();
-                Thread.sleep((long) 2000 + rng.nextInt(3000)); // Simulate service time
+                Thread.sleep((long) 1000 + rng.nextInt(3000)); // Simulate service time
                 markServiced(customer);
             }
         } catch (InterruptedException e) {

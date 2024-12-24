@@ -11,11 +11,11 @@ public class Main {
     private static final int COOK_COUNT = 2;
     private static final int CASHIER_COUNT = 2;
     private static final int CUSTOMER_COUNT = 16;
-    private static final int TABLE_SIZE = 5;
+    private static final int TABLE_LENGTH = 5;
 
     public static void main(String[] args) {
         GUI gui = new TableGUI();
-        Cafeteria cafeteria = new Cafeteria(COOK_COUNT, CASHIER_COUNT, TABLE_SIZE, gui);
+        Cafeteria cafeteria = new Cafeteria(COOK_COUNT, CASHIER_COUNT, TABLE_LENGTH, gui);
         gui.setCafeteria(cafeteria);
         gui.createAndShowGUI();
 

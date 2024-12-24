@@ -1,6 +1,6 @@
 package zlosnik.jp.lab05.sim;
 
-import java.util.*;
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Worker implements Runnable {
