@@ -35,7 +35,8 @@ public class Customer implements Runnable {
 
             Table table = cafeteria.getReadyTable();
             table.sit(customerId);
-            gui.update();
+            Thread.sleep(1000);
+            table.leave(customerId);
 
         } catch (InterruptedException e) {
             e.printStackTrace();

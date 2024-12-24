@@ -33,6 +33,7 @@ public class Table {
 
     public synchronized void leave(char customer) {
         tableSeats.remove(customer);
+        gui.update();
         notifyAll(); // Notify customer that there is a free space
     }
 
