@@ -17,19 +17,17 @@ public class Customer implements Runnable {
         try {
             cafeteria.outsideQueue.add(customerId);
             gui.update();
-            Thread.sleep(1000);
+            Thread.sleep(500);
             cafeteria.outsideQueue.remove(customerId);
             gui.update();
 
             Worker cook = cafeteria.getReadyCook();
             cook.joinQueue(customerId);
-            gui.update();
             cook.leaveQueue(customerId);
             gui.update();
 
             Worker cashier = cafeteria.getReadyCashier();
             cashier.joinQueue(customerId);
-            gui.update();
             cashier.leaveQueue(customerId);
             gui.update();
 

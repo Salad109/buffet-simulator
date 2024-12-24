@@ -1,13 +1,17 @@
 package zlosnik.jp.lab05.sim;
 
 public class Cook extends Worker {
-    Cook() {
-        super();
+    private static int nextCookId = 1;
+    private final int cookId;
+    Cook(GUI gui) {
+        super(gui);
+        cookId = nextCookId++;
     }
 
     @Override
     public String toString() {
-        return "Cook " + getWorkerId() + ": Queue: " + customerQueue + " Current: " + getCurrentCustomer();
+        char current = currentCustomer == null ? ' ' : currentCustomer;
+        return "Cook " + cookId + ": Queue: " + customerQueue + " Current: " + current;
     }
 
     @Override
@@ -15,7 +19,8 @@ public class Cook extends Worker {
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 char customer = serviceCustomer();
-                Thread.sleep(1000 + rng.nextInt(3000)); // Simulate service time
+                gui.update();
+                Thread.sleep((long) 2000 + rng.nextInt(3000)); // Simulate service time
                 markServiced(customer);
             }
         } catch (InterruptedException e) {

@@ -1,17 +1,21 @@
-package zlosnik.jp.lab05.sim;
+package zlosnik.jp.lab05.ui;
+
+import zlosnik.jp.lab05.sim.Cafeteria;
+import zlosnik.jp.lab05.sim.Customer;
+import zlosnik.jp.lab05.sim.GUI;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    private static final int COOK_COUNT = 4;
-    private static final int CASHIER_COUNT = 3;
-    private static final int CUSTOMER_COUNT = 12;
-    private static final int TABLE_LENGTH = 2;
+    private static final int COOK_COUNT = 2;
+    private static final int CASHIER_COUNT = 2;
+    private static final int CUSTOMER_COUNT = 16;
+    private static final int TABLE_SIZE = 5;
 
     public static void main(String[] args) {
-        GUI gui = new GUI();
-        Cafeteria cafeteria = new Cafeteria(COOK_COUNT, CASHIER_COUNT, TABLE_LENGTH, gui);
+        GUI gui = new TableGUI();
+        Cafeteria cafeteria = new Cafeteria(COOK_COUNT, CASHIER_COUNT, TABLE_SIZE, gui);
         gui.setCafeteria(cafeteria);
         gui.createAndShowGUI();
 
@@ -23,7 +27,7 @@ public class Main {
             customerThreads.add(customerThread);
             customerThread.start();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(250);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

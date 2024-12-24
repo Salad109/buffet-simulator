@@ -1,13 +1,18 @@
 package zlosnik.jp.lab05.sim;
 
 public class Cashier extends Worker {
-    Cashier() {
-        super();
+    private static int nextCashierId = 1;
+    private final int cashierId;
+
+    Cashier(GUI gui) {
+        super(gui);
+        cashierId = nextCashierId++;
     }
 
     @Override
     public String toString() {
-        return "Cashier " + getWorkerId() + ": Queue: " + customerQueue + " Current: " + getCurrentCustomer();
+        char current = currentCustomer == null ? ' ' : currentCustomer;
+        return "Cashier " + cashierId + ": Queue: " + customerQueue + " Current: " + current;
     }
 
     @Override
@@ -15,6 +20,7 @@ public class Cashier extends Worker {
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 char customer = serviceCustomer();
+                gui.update();
                 Thread.sleep((long) 3000 + rng.nextInt(1000)); // Simulate service time
                 markServiced(customer);
             }

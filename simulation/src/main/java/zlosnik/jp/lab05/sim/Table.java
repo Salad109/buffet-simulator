@@ -12,8 +12,8 @@ public class Table {
     GUI gui;
 
     Table(int tableSeatCount, Cafeteria cafeteria, GUI gui) {
-        tableSeats = new ConcurrentLinkedQueue<>();
-        tableQueues = new ConcurrentLinkedQueue<>();
+        tableSeats = new CustomConcurrentLinkedQueue();
+        tableQueues = new CustomConcurrentLinkedQueue();
         this.tableSeatCount = tableSeatCount;
         this.cafeteria = cafeteria;
         this.gui = gui;

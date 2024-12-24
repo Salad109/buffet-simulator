@@ -4,22 +4,22 @@ import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Cafeteria {
-    ConcurrentLinkedQueue<Character> outsideQueue = new ConcurrentLinkedQueue<>();
-    List<Cook> cooks = new ArrayList<>();
-    List<Cashier> cashiers = new ArrayList<>();
-    List<Table> tables = new ArrayList<>();
-    GUI gui;
+    final ConcurrentLinkedQueue<Character> outsideQueue = new CustomConcurrentLinkedQueue();
+    public final List<Cook> cooks = new ArrayList<>();
+    public final List<Cashier> cashiers = new ArrayList<>();
+    final List<Table> tables = new ArrayList<>();
+    final GUI gui;
 
-    Cafeteria(int cooksCount, int cashierCount, int tableSize, GUI gui) {
+    public Cafeteria(int cooksCount, int cashierCount, int tableSize, GUI gui) {
         this.gui = gui;
         for (int i = 0; i < cooksCount; i++) {
-            Cook cook = new Cook();
+            Cook cook = new Cook(gui);
             cooks.add(cook);
             Thread cookThread = new Thread(cook);
             cookThread.start();
         }
         for (int i = 0; i < cashierCount; i++) {
-            Cashier cashier = new Cashier();
+            Cashier cashier = new Cashier(gui);
             cashiers.add(cashier);
             Thread cashierThread = new Thread(cashier);
             cashierThread.start();
@@ -75,23 +75,35 @@ public class Cafeteria {
     }
 
 
-    public synchronized SimulationStatus getSimulationStatus() {
-        SimulationStatus status = new SimulationStatus();
-        status.outsideQueue = outsideQueue.toString();
-        for (Cook cook : cooks) {
-            status.cooks.add(cook.toString());
-        }
-        for (Cashier cashier : cashiers) {
-            status.cashiers.add(cashier.toString());
-        }
-        for (Table table : tables) {
-            status.tableQueue.add(table.tableQueues.toString());
-            status.tableSeats.add(table.getFirstHalfOfTableSeats());
-            status.tableSeats.add(table.getSeparator());
-            status.tableSeats.add(table.getSecondHalfOfTableSeats());
-        }
-        return status;
+public synchronized SimulationStatus getSimulationStatus() {
+    SimulationStatus status = new SimulationStatus();
+    status.setOutsideQueue(outsideQueue.toString());
+
+    List<String> cooksList = new ArrayList<>();
+    for (Cook cook : cooks) {
+        cooksList.add(cook.toString());
     }
+    status.setCooks(cooksList);
+
+    List<String> cashiersList = new ArrayList<>();
+    for (Cashier cashier : cashiers) {
+        cashiersList.add(cashier.toString());
+    }
+    status.setCashiers(cashiersList);
+
+    List<String> tableQueueList = new ArrayList<>();
+    List<String> tableSeatsList = new ArrayList<>();
+    for (Table table : tables) {
+        tableQueueList.add(table.tableQueues.toString());
+        tableSeatsList.add(table.getFirstHalfOfTableSeats());
+        tableSeatsList.add(table.getSeparator());
+        tableSeatsList.add(table.getSecondHalfOfTableSeats());
+    }
+    status.setTableQueue(tableQueueList);
+    status.setTableSeats(tableSeatsList);
+
+    return status;
+}
 
 
 }

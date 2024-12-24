@@ -4,15 +4,17 @@ import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Worker implements Runnable {
-    private final int workerId;
-    private static int nextId = 1;
-    final ConcurrentLinkedQueue<Character> customerQueue = new ConcurrentLinkedQueue<>();
-    final ConcurrentLinkedQueue<Character> servicedCustomers = new ConcurrentLinkedQueue<>();
-    Character currentCustomer = null;
-    Random rng = new Random();
+    static final Random rng = new Random();
+    final ConcurrentLinkedQueue<Character> customerQueue;
+    final ConcurrentLinkedQueue<Character> servicedCustomers;
+    final GUI gui;
+    Character currentCustomer;
 
-    Worker() {
-        this.workerId = nextId++;
+    Worker(GUI gui) {
+        this.gui = gui;
+        currentCustomer = null;
+        customerQueue = new CustomConcurrentLinkedQueue();
+        servicedCustomers = new CustomConcurrentLinkedQueue();
     }
 
     // Method for customers to join the queue
@@ -46,18 +48,6 @@ public abstract class Worker implements Runnable {
         int customers = customerQueue.size();
         if (currentCustomer != null) {
             customers++;
-        }
-        return customers;
-    }
-
-    int getWorkerId() {
-        return workerId;
-    }
-
-    synchronized List<Character> getCurrentCustomer() {
-        List<Character> customers = new ArrayList<>();
-        if (currentCustomer != null) {
-            customers.add(currentCustomer);
         }
         return customers;
     }
