@@ -5,24 +5,15 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class GUI {
-    private static DefaultTableModel tableModel;
-    private int cooks;
-    private int cashiers;
+    private DefaultTableModel tableModel;
     private Cafeteria cafeteria;
-
-    public GUI() {
-        createAndShowGUI();
-    }
 
     public void setCafeteria(Cafeteria cafeteria) {
         this.cafeteria = cafeteria;
-        this.cooks = cafeteria.cooks.size();
-        this.cashiers = cafeteria.cashiers.size();
-        update();
     }
 
-    private void createAndShowGUI() {
-        int rows = Math.max(Math.max(cooks, cashiers), 6);
+    public void createAndShowGUI() {
+        int rows = Math.max(Math.max(cafeteria.cooks.size(), cafeteria.cashiers.size()), 6);
         JFrame frame = new JFrame("Buffet Simulation");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(1200, 400);
@@ -51,7 +42,7 @@ public class GUI {
     }
 
     private void updateTableData(SimulationStatus status) {
-        tableModel.setValueAt(status.outsideQueue.toString(), 0, 0);
+        tableModel.setValueAt(status.outsideQueue, 0, 0);
         int row = 0;
         for (String cook : status.cooks) {
             tableModel.setValueAt(cook, row++, 1);

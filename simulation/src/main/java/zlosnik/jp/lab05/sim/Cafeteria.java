@@ -1,7 +1,6 @@
 package zlosnik.jp.lab05.sim;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Cafeteria {

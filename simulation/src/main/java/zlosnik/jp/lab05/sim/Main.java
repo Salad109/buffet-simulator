@@ -13,6 +13,7 @@ public class Main {
         GUI gui = new GUI();
         Cafeteria cafeteria = new Cafeteria(COOK_COUNT, CASHIER_COUNT, TABLE_LENGTH, gui);
         gui.setCafeteria(cafeteria);
+        gui.createAndShowGUI();
 
         // Create and start customer threads
         List<Thread> customerThreads = new ArrayList<>();

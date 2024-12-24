@@ -15,7 +15,7 @@ public class Cashier extends Worker {
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 char customer = serviceCustomer();
-                Thread.sleep(3000 + rng.nextInt(1000)); // Simulate service time
+                Thread.sleep((long) 3000 + rng.nextInt(1000)); // Simulate service time
                 markServiced(customer);
             }
         } catch (InterruptedException e) {
