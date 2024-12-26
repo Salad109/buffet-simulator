@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    private static final int COOK_COUNT = 2;
+    private static final int COOK_COUNT = 4;
     private static final int CASHIER_COUNT = 2;
     private static final int CUSTOMER_COUNT = 16;
     private static final int TABLE_LENGTH = 5;

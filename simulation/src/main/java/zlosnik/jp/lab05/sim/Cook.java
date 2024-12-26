@@ -12,7 +12,7 @@ public class Cook extends Worker {
     @Override
     public String toString() {
         char current = currentCustomer == null ? ' ' : currentCustomer;
-        return "Cook " + cookId + ": Queue: " + customerQueue + " Current: " + current;
+        return "Cook " + cookId + ": " + customerQueue + " -> " + current;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Cook extends Worker {
             while (!Thread.currentThread().isInterrupted()) {
                 char customer = serviceCustomer();
                 gui.update();
-                Thread.sleep((long) 1000 + rng.nextInt(3000)); // Simulate service time
+                Thread.sleep((long) 2000 + rng.nextInt(3000)); // Simulate service time
                 markServiced(customer);
             }
         } catch (InterruptedException e) {

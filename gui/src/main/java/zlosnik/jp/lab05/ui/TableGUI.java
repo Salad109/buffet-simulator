@@ -20,7 +20,7 @@ public class TableGUI implements GUI {
         int rows = Math.max(Math.max(cafeteria.cooks.size(), cafeteria.cashiers.size()), 6);
         JFrame frame = new JFrame("Buffet Simulation");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(1200, 400);
+        frame.setSize(1000, 400);
 
         String[] headerNames = new String[5];
         headerNames[0] = "Outside";

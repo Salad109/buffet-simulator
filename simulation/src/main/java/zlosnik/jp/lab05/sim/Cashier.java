@@ -12,7 +12,7 @@ public class Cashier extends Worker {
     @Override
     public String toString() {
         char current = currentCustomer == null ? ' ' : currentCustomer;
-        return "Cashier " + cashierId + ": Queue: " + customerQueue + " Current: " + current;
+        return "Cashier " + cashierId + ": " + customerQueue + " -> " + current;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Cashier extends Worker {
             while (!Thread.currentThread().isInterrupted()) {
                 char customer = serviceCustomer();
                 gui.update();
-                Thread.sleep((long) 3000 + rng.nextInt(1000)); // Simulate service time
+                Thread.sleep((long) 5000 + rng.nextInt(5000)); // Simulate service time
                 markServiced(customer);
             }
         } catch (InterruptedException e) {

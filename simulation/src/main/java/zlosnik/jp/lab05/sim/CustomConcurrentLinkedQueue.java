@@ -13,6 +13,6 @@ public class CustomConcurrentLinkedQueue extends ConcurrentLinkedQueue<Character
             builder.append(c);
             builder.append(" ");
         }
-        return builder.toString();
+        return builder.reverse().toString();
     }
 }
