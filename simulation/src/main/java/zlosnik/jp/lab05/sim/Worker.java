@@ -9,12 +9,22 @@ public abstract class Worker implements Runnable {
     final ConcurrentLinkedQueue<Character> servicedCustomers;
     final GUI gui;
     Character currentCustomer;
+    private boolean isRunning;
+    private final int id;
 
-    Worker(GUI gui) {
+
+    Worker(GUI gui, int id) {
         this.gui = gui;
+        this.id = id;
         currentCustomer = null;
         customerQueue = new CustomConcurrentLinkedQueue();
         servicedCustomers = new CustomConcurrentLinkedQueue();
+        isRunning = true;
+
+    }
+
+    public int getId() {
+        return id;
     }
 
     // Method for customers to join the queue
@@ -64,4 +74,11 @@ public abstract class Worker implements Runnable {
         notifyAll();
     }
 
+    public void toggle() {
+        isRunning = !isRunning;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
 }

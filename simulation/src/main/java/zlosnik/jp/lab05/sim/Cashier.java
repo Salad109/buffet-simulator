@@ -2,17 +2,15 @@ package zlosnik.jp.lab05.sim;
 
 public class Cashier extends Worker {
     private static int nextCashierId = 1;
-    private final int cashierId;
 
     Cashier(GUI gui) {
-        super(gui);
-        cashierId = nextCashierId++;
+        super(gui, nextCashierId++);
     }
 
     @Override
     public String toString() {
         char current = currentCustomer == null ? ' ' : currentCustomer;
-        return "Cashier " + cashierId + ": " + customerQueue + " -> " + current;
+        return "Cashier " + getId() + ": " + customerQueue + " -> " + current;
     }
 
     @Override

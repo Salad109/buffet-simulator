@@ -2,17 +2,15 @@ package zlosnik.jp.lab05.sim;
 
 public class Cook extends Worker {
     private static int nextCookId = 1;
-    private final int cookId;
 
     Cook(GUI gui) {
-        super(gui);
-        cookId = nextCookId++;
+        super(gui, nextCookId++);
     }
 
     @Override
     public String toString() {
         char current = currentCustomer == null ? ' ' : currentCustomer;
-        return "Cook " + cookId + ": " + customerQueue + " -> " + current;
+        return "Cook " + getId() + ": " + customerQueue + " -> " + current;
     }
 
     @Override
@@ -31,4 +29,5 @@ public class Cook extends Worker {
             e.printStackTrace();
         }
     }
+
 }

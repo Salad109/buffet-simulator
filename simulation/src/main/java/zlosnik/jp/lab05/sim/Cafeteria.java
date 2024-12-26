@@ -34,6 +34,9 @@ public class Cafeteria {
         int smallestQueue = Integer.MAX_VALUE;
         Cook readyCook = null;
         for (Cook cook : cooks) {
+            if (!cook.isRunning()) {
+                continue;
+            }
             int queueSize = cook.getTotalCustomers();
             if (cook.currentCustomer != null) {
                 queueSize++;
@@ -50,6 +53,9 @@ public class Cafeteria {
         int smallestQueue = Integer.MAX_VALUE;
         Cashier readyCashier = null;
         for (Cashier cashier : cashiers) {
+            if (!cashier.isRunning()) {
+                continue;
+            }
             int queueSize = cashier.getTotalCustomers();
             if (cashier.currentCustomer != null) {
                 queueSize++;
@@ -105,6 +111,4 @@ public class Cafeteria {
 
         return status;
     }
-
-
 }
