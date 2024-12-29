@@ -82,33 +82,32 @@ public class Cafeteria {
     }
 
 
-    public synchronized SimulationStatus getSimulationStatus() {
-        SimulationStatus status = new SimulationStatus();
-        status.setOutsideQueue(outsideQueue.toString());
-
-        List<String> cooksList = new ArrayList<>();
-        for (Cook cook : cooks) {
-            cooksList.add(cook.toString());
-        }
-        status.setCooks(cooksList);
-
-        List<String> cashiersList = new ArrayList<>();
-        for (Cashier cashier : cashiers) {
-            cashiersList.add(cashier.toString());
-        }
-        status.setCashiers(cashiersList);
-
-        List<String> tableQueueList = new ArrayList<>();
-        List<String> tableSeatsList = new ArrayList<>();
-        for (Table table : tables) {
-            tableQueueList.add(table.tableQueues.toString());
-            tableSeatsList.add(table.getFirstHalfOfTableSeats());
-            tableSeatsList.add(table.getSeparator());
-            tableSeatsList.add(table.getSecondHalfOfTableSeats());
-        }
-        status.setTableQueue(tableQueueList);
-        status.setTableSeats(tableSeatsList);
-
-        return status;
+public synchronized SimulationStatus getSimulationStatus() {
+    List<String> cooksList = new ArrayList<>();
+    for (Cook cook : cooks) {
+        cooksList.add(cook.toString());
     }
+
+    List<String> cashiersList = new ArrayList<>();
+    for (Cashier cashier : cashiers) {
+        cashiersList.add(cashier.toString());
+    }
+
+    List<String> tableQueueList = new ArrayList<>();
+    List<String> tableSeatsList = new ArrayList<>();
+    for (Table table : tables) {
+        tableQueueList.add(table.tableQueues.toString());
+        tableSeatsList.add(table.getFirstHalfOfTableSeats());
+        tableSeatsList.add(table.getSeparator());
+        tableSeatsList.add(table.getSecondHalfOfTableSeats());
+    }
+
+    return new SimulationStatus(
+        outsideQueue.toString(),
+        cashiersList,
+        cooksList,
+        tableQueueList,
+        tableSeatsList
+    );
+}
 }

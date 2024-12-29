@@ -19,7 +19,6 @@ public class Customer implements Runnable {
                 cafeteria.outsideQueue.add(customerId);
                 gui.update();
                 Thread.sleep(3000);
-                cafeteria.outsideQueue.remove(customerId);
                 gui.update();
 
                 Worker cook = null;
@@ -29,6 +28,7 @@ public class Customer implements Runnable {
                         Thread.sleep(250);
                     }
                 }
+                cafeteria.outsideQueue.remove(customerId);
                 cook.joinQueue(customerId);
                 gui.update();
                 cook.leaveQueue(customerId);

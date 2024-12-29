@@ -82,25 +82,25 @@ public void createAndShowGUI() {
     frame.setVisible(true);
 }
 
-    private void updateTableData(SimulationStatus status) {
-        tableModel.setValueAt(status.getOutsideQueue(), 0, 0);
-        int row = 0;
-        for (String cook : status.getCooks()) {
-            tableModel.setValueAt(cook, row++, 1);
-        }
-        row = 0;
-        for (String cashier : status.getCashiers()) {
-            tableModel.setValueAt(cashier, row++, 2);
-        }
-
-        tableModel.setValueAt(status.getTableQueue().getFirst(), 1, 3);
-        tableModel.setValueAt(status.getTableQueue().getLast(), 4, 3);
-
-        row = 0;
-        for (String tableSeat : status.getTableSeats()) {
-            tableModel.setValueAt(tableSeat, row++, 4);
-        }
+private void updateTableData(SimulationStatus status) {
+    tableModel.setValueAt(status.outsideQueue(), 0, 0);
+    int row = 0;
+    for (String cook : status.cooks()) {
+        tableModel.setValueAt(cook, row++, 1);
     }
+    row = 0;
+    for (String cashier : status.cashiers()) {
+        tableModel.setValueAt(cashier, row++, 2);
+    }
+
+    tableModel.setValueAt(status.tableQueue().getFirst(), 1, 3);
+    tableModel.setValueAt(status.tableQueue().getLast(), 4, 3);
+
+    row = 0;
+    for (String tableSeat : status.tableSeats()) {
+        tableModel.setValueAt(tableSeat, row++, 4);
+    }
+}
 
     public void update() {
         updateTableData(cafeteria.getSimulationStatus());
